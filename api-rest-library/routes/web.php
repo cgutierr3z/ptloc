@@ -16,5 +16,10 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function () {
-    return '<h1>HOLA MUNDO</h1>';
+    $text = '<h1>HOLA MUNDO test</h1>';
+    return view('test', array(
+        'text' => $text
+    ));
 });
+
+Route::get('test-orm', 'TestController@testOrm');
