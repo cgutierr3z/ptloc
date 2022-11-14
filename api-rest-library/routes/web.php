@@ -30,3 +30,4 @@ Route::get('test-orm', 'TestController@testOrm');
 Route::get('/usuario/test','UserController@test');
 Route::get('/libro/test','BookController@test');
 Route::get('/comentario/test','CommentController@test');
+
