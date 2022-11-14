@@ -28,12 +28,18 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    // Rel OneToMany
+    /* Relation: OneToMany
+     *
+     * Un usuario puede tener muchos libros.
+     */
     public function books(){
         return $this->hasMany('App\Book');
     }
 
-    // Rel OneToMany
+    /* Relation: OneToMany
+     *
+     * Un usuario puede tener muchos comentarios.
+     */
     public function comments(){
         return $this->hasMany('App\Comment');
     }
