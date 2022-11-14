@@ -7,11 +7,7 @@ use App\User;
 
 class UserController extends Controller
 {
-    public function login(Request $request){
-        return "Action Login on UserController";
-    }
-
-    public function singup(Request $request){
+    public function signup(Request $request){
         //return "Action SingUp on UserController";
 
         // Recoger datos
@@ -50,7 +46,8 @@ class UserController extends Controller
                 // Validacion correcta
 
                 // Cifrar password
-                $pass = password_hash($params->password, PASSWORD_BCRYPT, ['cost' => 4]);
+                //$pass = password_hash($params->password, PASSWORD_BCRYPT, ['cost' => 4]);
+                $pass = hash('sha256', $params->password);
 
                 // Crear objeto de usuario
                 $user = new User();
@@ -72,7 +69,7 @@ class UserController extends Controller
                 );
             }
         } else {
-            // Response paranetros con formato incorrecto
+            // Response parametros con formato incorrecto
             $data = array(
                 'status'    => 'error',
                 'code'      => 404,
@@ -81,6 +78,46 @@ class UserController extends Controller
         }
 
         return response()->json($data, $data['code']);
+    }
+
+    public function login(Request $request){
+        //return "Action Login on UserController";
+
+        $jwtAuth = new \JwtAuth();
+
+        // Recoger datos
+        $json = $request->input('json', null);
+        $params = json_decode($json);
+        $params_array = json_decode($json, true);
+
+        // Validar datos
+        $validate = \Validator::make($params_array, [
+            'email'     => 'required|email',
+            'password'  => 'required',
+        ]);
+
+        // Verificar si hay algun error de validacion
+        if ($validate->fails()) {
+            // Validacion fallida
+            // Response hay error de validacion
+            $data = array(
+                'status'    => 'error',
+                'code'      => 404,
+                'message'   => 'No se ha podido iniciar sesion.',
+                'errors'    => $validate->errors()
+            );
+        } else {
+            // Cifrar password
+            $pwd = hash('sha256', $params->password);
+
+            // Devolver token o datos
+            $data = $jwtAuth->signin($params->email, $pwd);
+            if(!empty($params->getToken)){
+                $data = $jwtAuth->signin($params->email, $pwd, true);
+            }
+        }
+
+        return response()->json($data, 200);
     }
 
     public function test(){
