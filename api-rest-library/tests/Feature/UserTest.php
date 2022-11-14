@@ -27,7 +27,7 @@ class UserTest extends TestCase
      */
     public function it_loads_users_singup_page()
     {
-        $this->post('/api/sing-up')
+        $this->post('/api/sign-up')
             ->assertStatus(200)
             ->assertSee("Action SingUp on UserController");
     }
