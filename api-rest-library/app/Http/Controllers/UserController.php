@@ -121,17 +121,64 @@ class UserController extends Controller
     }
 
     public function update(Request $request){
-        $token = $request->header('Authorization');
-        $jwtAuth = new \JwtAuth();
-        $checkToken = $jwtAuth->checkToken($token);
+        
 
-        if($checkToken){
-            echo 'LOGIN';
+        // Recoger datos
+        $json = $request->input('json', null);
+        $params = json_decode($json);
+        $params_array = json_decode($json, true);
+
+        if($checkToken && !empty($params_array)){
+            // Actualizar usuario
+
+            // Obtener id de usuario
+            $user = $jwtAuth->checkToken($token, true);
+
+            // Validar datos
+            $validate = \Validator::make($params_array, [
+                'name'      => 'required|alpha',
+                'surname'   => 'required|alpha',
+                'email'     => 'required|email|unique:users,'.$user->sub,
+            ]);
+
+            // Quitar campos innecesarios
+            unset($params_array['id']);
+            unset($params_array['role']);
+            unset($params_array['password']);
+            unset($params_array['created_at']);
+            unset($params_array['remember_token']);
+
+            // Actualizar BD
+            $user_update = User::where('id', $user->sub)->update($params_array);
+
+            // Devolver array con response
+            $data = array(
+                'status'    => 'success',
+                'code'      => 200,
+                'message'   => 'El usuario se ha actualizado.',
+                'user'      => $user,
+                'changes'   => $params_array
+            );
         } else {
-            echo 'PLEASE LOGIN';
+            $data = array(
+                'status'    => 'error',
+                'code'      => 400,
+                'message'   => 'El usuario no esta identificado.'
+            );
         }
 
-        die();
+        return response()->json($data, $data['code']);
+    }
+
+    public function upload(Request $request){
+        $data = array(
+            'status'    => 'error',
+            'code'      => 400,
+            'message'   => 'Error al subir imagen.'
+        );
+
+        //return response($data, $data['code'])->header('Content-Type','text/plain');
+        return response()->json($data, $data['code']);
     }
 
     public function test(){
