@@ -26,8 +26,11 @@ Route::get('/test', function () {
 
 Route::get('test-orm', 'TestController@testOrm');
 
-//API TEST ROUTES
+// API TEST ROUTES
 Route::get('/usuario/test','UserController@test');
 Route::get('/libro/test','BookController@test');
 Route::get('/comentario/test','CommentController@test');
 
+// API UserController Routes
+Route::post('/api/sing-up','UserController@singup');
+Route::post('/api/login','UserController@login');
