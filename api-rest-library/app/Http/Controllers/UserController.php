@@ -120,6 +120,20 @@ class UserController extends Controller
         return response()->json($data, 200);
     }
 
+    public function update(Request $request){
+        $token = $request->header('Authorization');
+        $jwtAuth = new \JwtAuth();
+        $checkToken = $jwtAuth->checkToken($token);
+
+        if($checkToken){
+            echo 'LOGIN';
+        } else {
+            echo 'PLEASE LOGIN';
+        }
+
+        die();
+    }
+
     public function test(){
         return "Action Test on UserController";
     }
