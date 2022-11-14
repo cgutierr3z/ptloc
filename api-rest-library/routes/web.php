@@ -11,6 +11,9 @@
 |
 */
 
+// Cargar Clases
+use App\Http\Middleware\ApiAuthMiddleware;
+
 
 // TEST ROUTES
 Route::get('/', function () {
@@ -34,4 +37,5 @@ Route::get('/comentario/test','CommentController@test');
 // API UserController Routes
 Route::post('/api/sign-up','UserController@signup');
 Route::post('/api/login','UserController@login');
-Route::post('/api/user/update','UserController@update');
+Route::put('/api/user/update','UserController@update');
+Route::post('/api/user/upload','UserController@upload')->middleware(ApiAuthMiddleware::class);
