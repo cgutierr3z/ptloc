@@ -11,6 +11,8 @@
 |
 */
 
+
+// TEST ROUTES
 Route::get('/', function () {
     return view('welcome');
 });
@@ -23,3 +25,8 @@ Route::get('/test', function () {
 });
 
 Route::get('test-orm', 'TestController@testOrm');
+
+//API TEST ROUTES
+Route::get('/usuario/test','UserController@test');
+Route::get('/libro/test','BookController@test');
+Route::get('/comentario/test','CommentController@test');
