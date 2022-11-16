@@ -12,8 +12,10 @@
 */
 
 // Cargar Clases
-use App\Http\Middleware\ApiAuthMiddleware;
 
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\ApiAuthMiddleware;
+use Illuminate\Support\Facades\Route;
 
 // TEST ROUTES
 Route::get('/', function () {
@@ -39,3 +41,12 @@ Route::post('/api/sign-up','UserController@signup');
 Route::post('/api/login','UserController@login');
 Route::put('/api/user/update','UserController@update');
 Route::post('/api/user/upload','UserController@upload')->middleware(ApiAuthMiddleware::class);
+Route::get('/api/user/avatar/{filename}', 'UserController@getImage');
+Route::get('api/user/detail/{id}', 'UserController@detail');
+
+// API BookController Routes
+Route::resource('/api/book', 'BookController');
+
+// API CommentController Routes
+Route::resource('/api/comment', 'CommentController');
+
