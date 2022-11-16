@@ -46,7 +46,18 @@ Route::get('api/user/detail/{id}', 'UserController@detail');
 
 // API BookController Routes
 Route::resource('/api/book', 'BookController');
+Route::post('/api/book/upload','BookController@upload');
+Route::get('/api/book/image/{filename}', 'BookController@getImage');
+Route::get('/api/book/user/{id}', 'BookController@getBooksByUser');
 
 // API CommentController Routes
 Route::resource('/api/comment', 'CommentController');
+Route::get('/api/comment/user/{id}', 'CommentController@getCommentsByUser');
+Route::get('/api/comment/book/{id}', 'CommentController@getCommentsByBook');
 
+/* // Rutas Entradas
+Route::resource('api/post', 'postController');
+Route::post('api/post/upload', 'postController@upload');
+Route::get('api/post/image/{filename}', 'postController@getImage');
+Route::get('api/post/category/{id}', 'postController@getPostbyCategory');
+Route::get('api/post/user/{id}', 'postController@getPostbyUser'); */
