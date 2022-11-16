@@ -8,6 +8,10 @@ class Comment extends Model
 {
     protected $table = 'comments';
 
+    protected $fillable = [
+        'comment',
+    ];
+
     /* Relation: ManyToOne
      *
      * Muchos comentarios pueden pertenecer a un usuario.
