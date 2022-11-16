@@ -1,0 +1,32 @@
+<br><br>
+<a *ngIf="identity && identity.role == 'ROLE_ADMIN'" [routerLink]="[ '/libro/crear' ]">Crear libro</a>
+<hr>
+
+<div class="loading" *ngIf="!books">
+  Cargando libros...
+</div>
+
+<div class="container-fluid" *ngIf="books">
+  <h1>{{page_title}}</h1>
+
+  <div class="card-columns">
+    <article class="card w-100" style="width: 18rem;" *ngFor="let book of books">
+
+      <div class="book-image w-100" *ngIf="book.image">
+        <img src="{{ url + 'book/image/' + book.image}}" class="w-100">
+      </div>
+      <div class="book-image w-100" *ngIf="!book.image">
+          <img src="assets/images/default-placeholder.png" class="w-100">
+      </div>
+      
+      <div class="card-body">
+        <h5 class="card-title"><a [routerLink]="['/libro', book.id]">{{book.title}}</a></h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{book.author}}</h6>
+        <p class="card-text">{{book.description}}</p>
+        <a [routerLink]="['/libro', book.id]" class="btn btn-primary">Ver libro</a>
+      </div>
+    </article>
+  </div>
+
+  
+</div>

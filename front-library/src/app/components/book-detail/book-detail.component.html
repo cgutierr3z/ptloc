@@ -1,0 +1,45 @@
+<br><br>
+<div class="col-md-12" *ngIf="!book">
+  Cargando...
+</div>
+<div class="col-md-12 mt-3" *ngIf="book">
+  <div class="w-100" *ngIf="book.image">
+    <img src="{{ url + 'book/image/' + book.image}}" class="w-100">
+  </div>
+  <div class="w-100" *ngIf="!book.image">
+      <img src="assets/images/default-placeholder.png" class="w-100">
+  </div>
+
+  <div class="card-body">
+      <h1>Titulo libro: {{ book.title }}</h1>
+      <h5>Autor libro: {{ book.author }}</h5>
+      <hr>
+      <p>Descripcion del libro:</p>
+      <p [innerHtml]="book.description"></p>
+      <hr>
+      <p>Publicado por: {{ book.user.name + ' ' + book.user.surname}} <br> Publicado el: {{book.created_at}}</p>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="comments.length == 0">
+  <h1>Este libro aun no tiene comentarios.</h1>
+</div>
+
+<div class="container-fluid" *ngIf="comments.length != 0">
+  <h1>Comentarios ({{comments.length}}):</h1>
+
+  <div class="card-columns">
+    <article class="card w-100" style="width: 18rem;" *ngFor="let comment of comments">
+      <div class="card-body">
+
+        
+        <p class="card-text">{{comment.comment}}</p>
+        <h6 class="card-subtitle mb-2 text-muted">Por: {{comment.user.name}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">Fecha: {{comment.created_at}}</h6>
+  
+      </div>
+    </article>
+  </div>
+
+  
+</div>

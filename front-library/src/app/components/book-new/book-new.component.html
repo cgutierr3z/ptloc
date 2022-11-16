@@ -1,0 +1,58 @@
+<br><br>
+<div class="col-md-12">
+  <h1>{{ page_title }}</h1>
+  <p *ngIf="status != 'success' && !is_edit">
+      Agrega un nuevo libro.
+  </p>
+  <p *ngIf="status != 'success' && is_edit">
+      Editar libro
+  </p>
+  <hr>
+  <div class="alert alert-success col-md-5" *ngIf="status == 'success'">
+      El registro se ha guardado exitosamente
+  </div>
+  <div class="alert alert-danger col-md-5" *ngIf="status == 'error'">
+      El registro no se ha guardado, problemas al registrar
+  </div>
+
+  <form class="col-md-5 ml-0 pl-0" #bookNew="ngForm" (ngSubmit)="onSubmit(bookNew)">
+      <div class="form-group">
+          <label for="title">Titulo</label>
+          <input type="text" name="title" class="form-control" #title="ngModel" [(ngModel)]="book.title" required >
+          <small *ngIf="!title.valid && title.touched" class="invalid-feedback d-block">
+              El titulo no es valido.
+          </small>
+      </div>
+      
+      <div class="form-group">
+        <label for="author">Autor</label>
+        <input type="text" name="author" class="form-control" #author="ngModel" [(ngModel)]="book.author" required >
+        <small *ngIf="!author.valid && author.touched" class="invalid-feedback d-block">
+            El autor no es valido.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripcion</label>
+        <input type="text" name="description" class="form-control" #description="ngModel" [(ngModel)]="book.description" required >
+        <small *ngIf="!description.valid && description.touched" class="invalid-feedback d-block">
+            La descripcion no es valido.
+        </small>
+      </div>
+
+      <div class="form-group">
+          <label for="image">Imagen</label>
+          <div *ngIf="is_edit && book.image">
+              <img src="{{url+'book/image/'+book.image}}" class="avatar_f">
+          </div>
+          <angular-file-uploader
+              [config]="afuConfig"
+              (ApiResponse)="imageUpload($event)">
+          </angular-file-uploader>
+      </div>
+      
+      <input type="submit" value="Guadar libro" class="btn btn-success" [disabled]="bookNew.invalid">
+  </form>
+  <br> 
+  
+</div>
