@@ -38,6 +38,7 @@ class JwtAuth{
                 'name'      => $user->name,
                 'surname'   => $user->surname,
                 'avatar'    => $user->avatar,
+                'role'      => $user->role,
                 'iat'       => time(),
                 'exp'       => time() + (7* 24 * 60 * 60)
             );
