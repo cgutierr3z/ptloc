@@ -14,7 +14,7 @@ class BookController extends Controller
 
     public function __construct(Request $request)
     {
-        $this->middleware('api.auth', ['except' => ['index', 'show']]);
+        $this->middleware('api.auth', ['except' => ['index', 'show','getImage','getBooksByUser']]);
 
         $json = $request->input('json', null);
         $this->params = json_decode($json);
@@ -240,7 +240,7 @@ class BookController extends Controller
             $data = [
                 'code' => 200,
                 'status' => 'success',
-                'message' => 'La imagen se ha subido correctamente.',
+                'message' => 'La imagen del libro se ha subido correctamente.',
                 'image' => $image_name
             ];
         }
@@ -249,6 +249,37 @@ class BookController extends Controller
         return response()->json($data, $data['code']);
     }
 
+    public function getImage($filename)
+    {
+        // Comprobar si existe el fichero
+        $isset = \Storage::disk('images')->exists($filename);
+
+        if ($isset) {
+            // Conseguir la imagen
+            $file = \Storage::disk('images')->get($filename);
+            // Devolver la imagen
+            return new Response($file, 200);
+        } else {
+            $data = [
+                'code' => 404,
+                'status' => 'error',
+                'message' => 'La imagen no existe.'
+            ];
+        }
+
+        // Mostrar error
+        return response()->json($data, $data['code']);
+    }
+
+    public function getBooksByUser($id){
+        $books = Book::where('user_id', $id)->get();
+
+        return response()->json([
+            'status'    => 'success',
+            'code'      =>  200,
+            'books'     => $books
+        ], 200);
+    }
 
     public function test(){
         return "Action Test on BookController";
