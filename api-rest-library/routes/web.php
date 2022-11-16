@@ -54,10 +54,3 @@ Route::get('/api/book/user/{id}', 'BookController@getBooksByUser');
 Route::resource('/api/comment', 'CommentController');
 Route::get('/api/comment/user/{id}', 'CommentController@getCommentsByUser');
 Route::get('/api/comment/book/{id}', 'CommentController@getCommentsByBook');
-
-/* // Rutas Entradas
-Route::resource('api/post', 'postController');
-Route::post('api/post/upload', 'postController@upload');
-Route::get('api/post/image/{filename}', 'postController@getImage');
-Route::get('api/post/category/{id}', 'postController@getPostbyCategory');
-Route::get('api/post/user/{id}', 'postController@getPostbyUser'); */

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
+use App\Helpers\JwtAuth;
 use App\User;
 
 class UserController extends Controller
@@ -84,15 +86,17 @@ class UserController extends Controller
     public function login(Request $request){
         //return "Action Login on UserController";
 
-        $jwtAuth = new \JwtAuth();
+        $jwtAuth = new JwtAuth();
 
         // Recoger datos
-        $json = $request->input('json', null);
+        $json = $request->input("json", null);
         $params = json_decode($json);
         $params_array = json_decode($json, true);
 
+        //var_dump($json);var_dump($params);var_dump($params_array);die();
+
         // Validar datos
-        $validate = \Validator::make($params_array, [
+        $validate = Validator::make($params_array, [
             'email'     => 'required|email',
             'password'  => 'required',
         ]);
@@ -122,12 +126,16 @@ class UserController extends Controller
     }
 
     public function update(Request $request){
+        // Comprobar si el usuario esta identificado
+        $token = $request->header('Authorization');
+        $jwtAuth = new \JwtAuth();
+        $checkToken = $jwtAuth->checkToken($token);
         
-
         // Recoger datos
         $json = $request->input('json', null);
         $params = json_decode($json);
         $params_array = json_decode($json, true);
+
 
         if($checkToken && !empty($params_array)){
             // Actualizar usuario

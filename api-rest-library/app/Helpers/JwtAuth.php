@@ -55,7 +55,7 @@ class JwtAuth{
             // Response datos correctos
             $data = array(
                 'status'    => 'error',
-                'message'   => 'Login incorrecto',
+                'message'   => 'Usuario o contraseña incorrecto.',
             );
         }
 
