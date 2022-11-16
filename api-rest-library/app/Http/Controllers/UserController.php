@@ -187,7 +187,7 @@ class UserController extends Controller
             $data = array(
                 'code'    => 400,
                 'status' => 'error',
-                'message' => 'Error al subir imagen.'
+                'message' => 'Error al subir imagen del avatar.'
             );
         } else {
             $image_name = time() . $image->getClientOriginalName();
