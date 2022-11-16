@@ -220,7 +220,7 @@ class CommentController extends Controller
     }
 
     public function getCommentsByBook($id){
-        $comments = Comment::where('book_id', $id)->get();
+        $comments = Comment::where('book_id', $id)->get()->load('user');
 
         return response()->json([
             'status'    => 'success',
