@@ -209,6 +209,26 @@ class CommentController extends Controller
         return response()->json($data, $data['code']);
     }
 
+    public function getCommentsByUser($id){
+        $comments = Comment::where('user_id', $id)->get();
+
+        return response()->json([
+            'status'    => 'success',
+            'code'      =>  200,
+            'comments'     => $comments
+        ], 200);
+    }
+
+    public function getCommentsByBook($id){
+        $comments = Comment::where('book_id', $id)->get();
+
+        return response()->json([
+            'status'    => 'success',
+            'code'      =>  200,
+            'comments'     => $comments
+        ], 200);
+    }
+
     public function test(){
         return "Action Test on CommentController";
     }
