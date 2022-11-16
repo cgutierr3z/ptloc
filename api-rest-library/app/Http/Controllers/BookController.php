@@ -215,6 +215,40 @@ class BookController extends Controller
         return response()->json($data, $data['code']);
     }
 
+    public function upload(Request $request)
+    {
+        // Recoger la imagen de la petición
+        $image = $request->file('file0');
+
+        // Validar la imagen
+        $validate = \Validator::make($request->all(), [
+            'file0' => 'required|mimes:jpg,jpeg,png,gif'
+        ]);
+
+        // Guardar la imagen
+        if (!$image || $validate->fails()) {
+            $data = [
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'Error al subir la imagen del libro.'
+            ];
+        } else {
+            $image_name = time() . $image->getClientOriginalName();
+
+            \Storage::disk('images')->put($image_name, \File::get($image));
+
+            $data = [
+                'code' => 200,
+                'status' => 'success',
+                'message' => 'La imagen se ha subido correctamente.',
+                'image' => $image_name
+            ];
+        }
+
+        // Devolver datos
+        return response()->json($data, $data['code']);
+    }
+
 
     public function test(){
         return "Action Test on BookController";
