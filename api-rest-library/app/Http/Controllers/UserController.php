@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\User;
 
 class UserController extends Controller
@@ -170,14 +171,72 @@ class UserController extends Controller
         return response()->json($data, $data['code']);
     }
 
-    public function upload(Request $request){
-        $data = array(
-            'status'    => 'error',
-            'code'      => 400,
-            'message'   => 'Error al subir imagen.'
-        );
+    public function upload(Request $request)
+    {
+        // Recoger datos de imagen
+        $image = $request->file('file0');
+        //var_dump($image);die();
+
+        // Validar datos de imagen
+        $validate = \Validator::make($request->all(), [
+            'file0' => 'required|mimes:jpg,jpeg,png,gif'
+        ]);
+
+        //Guardar imagen
+        if (!$image || $validate->fails()) {
+            $data = array(
+                'code'    => 400,
+                'status' => 'error',
+                'message' => 'Error al subir imagen.'
+            );
+        } else {
+            $image_name = time() . $image->getClientOriginalName();
+            \Storage::disk('users')->put($image_name, \File::get($image));
+
+            $data = array(
+                'code'    => 200,
+                'status' => 'success',
+                'message' => 'La imagen se subio correctamente.',
+                'image' => $image_name
+            );
+        }
 
         //return response($data, $data['code'])->header('Content-Type','text/plain');
+        return response()->json($data, $data['code']);
+    }
+
+    public function getImage($filename)
+    {
+        $isset = \Storage::disk('users')->exists($filename);
+        if ($isset) {
+            $file = \Storage::disk('users')->get($filename);
+            return new Response($file, 200);
+        } else {
+            $data = array(
+                'code'    => 400,
+                'status' => 'error',
+                'message' => 'La imagen no existe'
+            );
+            return response()->json($data, $data['code']);
+        }
+    }
+
+    public function detail($id)
+    {
+        $user = User::find($id);
+        if (is_object($user)) {
+            $data = array(
+                'code' => 200,
+                'status' => 'success',
+                'user' => $user
+            );
+        } else {
+            $data = array(
+                'code' => 400,
+                'status' => 'error',
+                'message' => 'El usuario no existe'
+            );
+        }
         return response()->json($data, $data['code']);
     }
 
