@@ -14,7 +14,7 @@ PTLOC es una prueba tecnica desarrollada por Carlos Gutierrez 2022.11.16, el bac
 ## Requerimientos FrontEnd
 - node v10.14.2
 - npm v6.4.1
-- Angular CLI version 14.0.0
+- Angular CLI version 7.1.3
 ## Requerimientos Backend
 - Apache/2.4.53
 - mariadb Ver 15.1 Distrib 10.7.3-MariaDB
