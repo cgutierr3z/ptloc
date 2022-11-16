@@ -19,22 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 // TEST ROUTES
 Route::get('/', function () {
-    return view('welcome');
+    return "";
 });
-
-Route::get('/test', function () {
-    $text = '<h1>HOLA MUNDO test</h1>';
-    return view('test', array(
-        'text' => $text
-    ));
-});
-
-Route::get('test-orm', 'TestController@testOrm');
-
-// API TEST ROUTES
-Route::get('/usuario/test','UserController@test');
-Route::get('/libro/test','BookController@test');
-Route::get('/comentario/test','CommentController@test');
 
 // API UserController Routes
 Route::post('/api/sign-up','UserController@signup');
