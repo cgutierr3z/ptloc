@@ -90,10 +90,11 @@ class UserController extends Controller
 
         // Recoger datos
         $json = $request->input("json", null);
+        $json = preg_replace('/[\x00-\x1F\x80-\xFF]/', '',$json);
         $params = json_decode($json);
         $params_array = json_decode($json, true);
 
-        //var_dump($json);var_dump($params);var_dump($params_array);die();
+        //var_dump($json);var_dump(json_decode($json));var_dump($params_array);die();
 
         // Validar datos
         $validate = Validator::make($params_array, [
